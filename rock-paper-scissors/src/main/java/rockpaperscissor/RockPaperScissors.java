@@ -13,12 +13,12 @@ public class RockPaperScissors {
         String gameMessage = "";
 
         // create an array list to hold options ["R', "P", "S"]
-        // prompt user w/ menu options
+
         // if user quits; just return
-        // lowercase all user's responses
+
         // math random function to randomize options
         // for computer choice; when play against computer, it goes first
-        // when playing human to human first user's name entered will go first
+
         // need to keep track of ties(computer)/wins/loses
         // play again/show menu when game over
         // timer (interface)
@@ -29,7 +29,6 @@ public class RockPaperScissors {
         // Create and Display menu
         OpenerMenu openerMenu = new OpenerMenu("Opener",
                 "\nHello And Welcome To ROCK\uD83E\uDEA8 PAPER\uD83D\uDCC4 SCISSORS✂\uFE0F!!\n");
-//        openerMenu.showMenuOptions(openerMenu.getMenuType());
 
         // create Scanner Class
         Scanner scanner = new Scanner(System.in);
@@ -40,7 +39,7 @@ public class RockPaperScissors {
 
         // get user's options
         SketchMenu sketchMenu = new SketchMenu("Sketch", "\nROCK\uD83E\uDEA8 PAPER\uD83D\uDCC4 SCISSORS✂\uFE0F!!\n");
-//        sketchMenu.showMenuOptions(sketchMenu.getMenuType());
+
         String response = scanner.nextLine();
         gameMessage = sketchMenu.getResponse(response.toLowerCase());
         // check selection is correct
@@ -54,50 +53,49 @@ public class RockPaperScissors {
             scanner.close();
         } else {
             System.out.println(gameMessage);
-//            System.out.println(sketchMenu.showMenuOptions(sketchMenu.getMenuType()));
-//            response = scanner.nextLine();
-//            System.out.println(response);
-//            gameMessage = sketchMenu.getResponse(response.toLowerCase());
             // check opening menu response is correct
             String player1 = scanner.nextLine();
-
-            // add a check for 'quit'; if user types this a username, stop game
-            // create human player 1
-            Mortal mortal1 = new Mortal(player1);
-//        System.out.println(player1);
-            if (mortal1.checkName(player1) == "play") {
-                System.out.println(sketchMenu.getResponse("human2"));
-                String player2 = scanner.nextLine();
-                // add a check for 'quit'; if user types this a username, stop game
-                // create human player 2
-                Mortal mortal2 = new Mortal(player2);
-//        System.out.println(player2);
-                if (mortal2.checkName(player2) == "play") {
-                    // create and display greeting and starter menu
-//        System.out.println(sketchMenu.showGreeting());
-//        System.out.println(sketchMenu.showMenuOptions(sketchMenu.getMenuType()));
-
-
-                    // play game!
-                    System.out.println(rockPaperScissors.playGame(mortal1, mortal2, sketchMenu));
-                }
-
-
-            } else {
-                // display start menu again??
+            gameMessage = checkName(player1);
+            System.out.println(gameMessage);
+            // check if player1 username entered
+            while (player1.length() == 0) {
+                player1 = scanner.nextLine();
+                gameMessage = checkName(player1);
             }
+            // still checking for valid player name or msg
+            if (gameMessage.contains("quit") || player1.contains("quit")) {
+                scanner.close();
+            } else {
+                // create human player 1
+                Mortal mortal1 = new Mortal(player1);
+                if (mortal1.checkName(player1) == "play") {
+                    System.out.println(sketchMenu.getResponse("human2"));
+                    String player2 = scanner.nextLine();
+                    gameMessage = checkName(player2);
+                    System.out.println(gameMessage);
+                    // check if player2 username entered
+                    while (player1.length() == 0) {
+                        player1 = scanner.nextLine();
+                        gameMessage = checkName(player1);
+                    }
+                    if (gameMessage.contains("quit") || player1.contains("quit")) {
+                        scanner.close();
+                    } else {
+                        // create human player 2
+                        Mortal mortal2 = new Mortal(player2);
+                        if (mortal2.checkName(player2) == "play") {
+                            // play game!
+                            System.out.println(rockPaperScissors.playGame(mortal1, mortal2, sketchMenu));
+                        }
+                    }
 
+                } else {
+                    // display start menu again??
+                }
+            }
         }
-
-
-
-
         // close scanner
         scanner.close();
-
-        // Create players based on menu option
-
-
     }
 
     /**
@@ -195,5 +193,18 @@ public class RockPaperScissors {
             }
         }
         return winner;
+    }
+
+    /** This method will check if the something has been entered as a username,
+     * spaces count; if 'quit' has been entered, the game will stop/quit.
+     *
+     * @param name
+     * @return : message
+     */
+    public static String checkName(String name) {
+        String msg = "play";
+        if (name.length() == 0) msg = "Please enter player's userName.";
+        if (name.toLowerCase() == "quit") msg = "quit";
+        return msg;
     }
 }

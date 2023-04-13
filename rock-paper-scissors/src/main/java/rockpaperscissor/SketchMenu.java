@@ -11,15 +11,16 @@ public class SketchMenu extends Menu {
     public  String showMenuOptions(String menuType) {
         String heading = "  Player MENU\n";
         heading += "===============\n" ;
-        heading += "1.  Player, your turn.\n";
+//        heading += "1.  Please enter R, P, or S.\n";
         switch (menuType) {
             case "Sketch":
-                heading += "2.  Please enter R, P, or S.\n";
+                heading += "1.  Please enter R, P, or S.\n";
+//                heading += "2.  Please enter R, P, or S.\n";
+                heading += "2.  Type 'quit' to stop playing the game.\n";
                 break;
             default:
         }
 
-        heading += "3.  Type 'quit' to stop playing the game.\n";
         return heading;
     }
 
