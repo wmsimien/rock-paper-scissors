@@ -1,9 +1,17 @@
 package rockpaperscissor;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Scanner;
 
 public class RockPaperScissors {
     public static void main(String[] args) {
+        // instantiate class
+        RockPaperScissors rockPaperScissors = new RockPaperScissors();
+        List<String> gameOptions = Arrays.asList("R", "P", "S");
+        String gameMessage = "";
+
         // create an array list to hold options ["R', "P", "S"]
         // prompt user w/ menu options
         // if user quits; just return
@@ -14,27 +22,178 @@ public class RockPaperScissors {
         // need to keep track of ties(computer)/wins/loses
         // play again/show menu when game over
         // timer (interface)
-        // menu (interface)
+        // error handling interfaces (check for mortal responses like name, etc.)
+        // menu (class)
         // tracking player game history
 
         // Create and Display menu
-        Menu mainMenu = new Menu("Main");
-        mainMenu.showMenuOptions(mainMenu.getMenuType());
+        OpenerMenu openerMenu = new OpenerMenu("Opener",
+                "\nHello And Welcome To ROCK\uD83E\uDEA8 PAPER\uD83D\uDCC4 SCISSORS✂\uFE0F!!\n");
+//        openerMenu.showMenuOptions(openerMenu.getMenuType());
 
         // create Scanner Class
         Scanner scanner = new Scanner(System.in);
+
         // display greeting and create main/starter menu
-        System.out.println(mainMenu.showGreeting());
-        System.out.println(mainMenu.showMenuOptions(mainMenu.getMenuType()));
+        System.out.println(openerMenu.showGreeting());
+        System.out.println(openerMenu.showMenuOptions(openerMenu.getMenuType()));
+
         // get user's options
+        SketchMenu sketchMenu = new SketchMenu("Sketch", "\nROCK\uD83E\uDEA8 PAPER\uD83D\uDCC4 SCISSORS✂\uFE0F!!\n");
+//        sketchMenu.showMenuOptions(sketchMenu.getMenuType());
         String response = scanner.nextLine();
-        mainMenu.getResponse(response.toLowerCase());
+        gameMessage = sketchMenu.getResponse(response.toLowerCase());
+        // check selection is correct
+        while (gameMessage.contains("selection")) {
+            System.out.println(openerMenu.showMenuOptions(openerMenu.getMenuType()));
+            response = scanner.nextLine();
+            gameMessage = sketchMenu.getResponse(response.toLowerCase());
+        }
+       // play?
+        if (gameMessage.contains("stop")) {
+            scanner.close();
+        } else {
+            System.out.println(gameMessage);
+//            System.out.println(sketchMenu.showMenuOptions(sketchMenu.getMenuType()));
+//            response = scanner.nextLine();
+//            System.out.println(response);
+//            gameMessage = sketchMenu.getResponse(response.toLowerCase());
+            // check opening menu response is correct
+            String player1 = scanner.nextLine();
+
+            // add a check for 'quit'; if user types this a username, stop game
+            // create human player 1
+            Mortal mortal1 = new Mortal(player1);
+//        System.out.println(player1);
+            if (mortal1.checkName(player1) == "play") {
+                System.out.println(sketchMenu.getResponse("human2"));
+                String player2 = scanner.nextLine();
+                // add a check for 'quit'; if user types this a username, stop game
+                // create human player 2
+                Mortal mortal2 = new Mortal(player2);
+//        System.out.println(player2);
+                if (mortal2.checkName(player2) == "play") {
+                    // create and display greeting and starter menu
+//        System.out.println(sketchMenu.showGreeting());
+//        System.out.println(sketchMenu.showMenuOptions(sketchMenu.getMenuType()));
+
+
+                    // play game!
+                    System.out.println(rockPaperScissors.playGame(mortal1, mortal2, sketchMenu));
+                }
+
+
+            } else {
+                // display start menu again??
+            }
+
+        }
+
+
+
+
         // close scanner
         scanner.close();
+
         // Create players based on menu option
 
-        // play game!
+
+    }
+
+    /**
+     *
+     * @param p1
+     * @param p2
+     * @param menu
+     * @return
+     */
+    public String playGame(Mortal p1, Mortal p2, SketchMenu menu) {
+        String gamer = "";
+        System.out.println(menu.showGreeting());
+        Scanner scanner = new Scanner(System.in);
+        System.out.println(menu.showMenuOptions(menu.getMenuType()));
+//        System.out.println("player1: " + p1 + ", " + "player2: " + p2);
+
+        ArrayList<String> play1List = new ArrayList<>();
+        ArrayList<String> play2List = new ArrayList<>();
+        // need to check response
+        String response = scanner.nextLine();
+        System.out.println(p1.getUserName() + ":  " + p1.checkMoves(response.toLowerCase()));
+                //p1.checkMoves(scanner.nextLine().toLowerCase());
+//        System.out.println(response);
+        if (response.contains("Incorrect")) {
+            // give player another chance; else quit game
+            response = p1.checkMoves(scanner.nextLine().toLowerCase());
+        }
+        if (response.toLowerCase() == "quit") {
+            // give player another chance; else quit game
+            System.out.println("Good-Bye!");;
+            scanner.close();
+        } else {
+            // update mortal 1
+            play1List.add(response);
+            p1.setGameMoves(play1List);
+            // next player
+            response = scanner.nextLine();
+            System.out.println(p2.getUserName() + ":  " + p2.checkMoves(response.toLowerCase()));
+            play2List.add(response);
+            p2.setGameMoves(play2List);
+            // check win/lose options
+//            System.out.println("mortal1:  " + p1.getGameMoves());
+//            System.out.println("mortal2:  " + p2.getGameMoves());
+
+            // call method to check for winner
+            gamer = checkWinLose(p1, p2);
+//                    play1List.get(play1List.size()-1), play2List.get(play2List.size()-1));
 
 
+        }
+        scanner.close();
+        return gamer;
+    }
+
+    /**
+     *
+     * @param p1 : Mortal Player 1
+     * @param p2 : Mortal Player 2
+     * @return : Winning message
+     */
+    public String checkWinLose(Mortal p1, Mortal p2) {
+        // obtain player's last play
+        String p1Play = p1.getGameMoves().get(p1.getGameMoves().size()-1);
+        String p2Play = p2.getGameMoves().get(p2.getGameMoves().size()-1);
+        String winner = "";
+        if ((p1Play.equals("r") && p2Play.equals("s")) ||
+                (p1Play.equals("p") && p2Play.equals("r")) ||
+                (p1Play.equals("s") && p2Play.equals("p"))) {
+           winner = p1.getUserName();
+           // set player's data
+            p1.setWins(p1.getWins()+1);
+            p2.setLoses(p2.getLoses()+1);
+            // phrase
+            if (p1Play.equals("r")) {
+                winner += " WINS, ROCK\uD83E\uDEA8 CRUSHES SCISSORS✂\uFE0F.";
+            } else if (p1Play.equals("p")){
+                winner += " WINS, PAPER\uD83D\uDCC4 COVERS ROCK\uD83E\uDEA8.";
+            } else {
+                winner += " WINS, SCISSORS✂\uFE0F CUT PAPER\uD83D\uDCC4.";
+            }
+        } else if ((p2Play.equals("r") && p1Play.equals("s")) ||
+                (p2Play.equals("p") && p1Play.equals("r")) ||
+                (p2Play.equals("s") && p1Play.equals("p"))) {
+            winner = p2.getUserName();
+            // set player's data
+            p2.setWins(p2.getWins()+1);
+            p1.setLoses(p1.getLoses()+1);
+            // phrase
+            if (p2Play.equals("r")) {
+                winner += " WINS!, ROCK\uD83E\uDEA8 CRUSHES SCISSORS✂\uFE0F.";
+            } else if (p2Play.equals("p")){
+                winner += " WINS!, PAPER\uD83D\uDCC4 COVERS ROCK\uD83E\uDEA8.";
+            } else {
+                winner += " WINS!, SCISSORS✂\uFE0F CUT PAPER\uD83D\uDCC4.";
+            }
+        }
+        return winner;
     }
 }
