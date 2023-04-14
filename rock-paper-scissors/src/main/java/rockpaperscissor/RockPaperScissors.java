@@ -8,7 +8,6 @@ public class RockPaperScissors {
         RockPaperScissors rockPaperScissors = new RockPaperScissors();
 
         // need to keep track of ties(computer)/wins/loses
-        // play again/show menu when game over
         // error handling interfaces (check for mortal responses like name, etc.)
         // tracking player game history
 
@@ -20,6 +19,11 @@ public class RockPaperScissors {
         rockPaperScissors.runRockPaperScissors(openerMenu);
     }
 
+    /**
+     * This method handle all game play
+     * @param openerMenu
+     * @return
+     */
     public String runRockPaperScissors(OpenerMenu openerMenu) {
         // handle game messages
         String gameMessage = "play";
