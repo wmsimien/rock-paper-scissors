@@ -218,7 +218,10 @@ public class RockPaperScissors {
         // create array list of computer options
         List<String> gameOptions = Arrays.asList("r", "p", "s");
 
+        // according to java 8 docs
         // use Random class to generate a random index
+        // use nextInt w/ upper bound between 0 (inclusive)
+        // and specified value (exclusive)
         Random random = new Random();
         int index = random.nextInt(3);
         String computerChoice = gameOptions.get(index);
