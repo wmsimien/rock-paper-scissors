@@ -7,15 +7,19 @@ public class SketchMenu extends Menu {
         super(type, text);
     }
 
+    /**
+     * This method will handle the display for various menus
+     * @param menuType
+     * @return
+     */
     @Override
     public  String showMenuOptions(String menuType) {
         String heading = "  Player MENU\n";
         heading += "===============\n" ;
-//        heading += "1.  Please enter R, P, or S.\n";
+
         switch (menuType) {
             case "Sketch":
                 heading += "1.  Please enter R, P, or S.\n";
-//                heading += "2.  Please enter R, P, or S.\n";
                 heading += "2.  Type 'quit' to stop playing the game.\n";
                 break;
             default:
@@ -24,6 +28,11 @@ public class SketchMenu extends Menu {
         return heading;
     }
 
+    /**
+     * This method will handle the responses based on menu options
+     * @param response
+     * @return
+     */
     public String getResponse(String response) {
 
         String options = "";
@@ -35,8 +44,8 @@ public class SketchMenu extends Menu {
                 options = "Please enter the username for Player 2.";
                 break;
             case "computer":
-                options = "Computer play...\n";
-                options += "Please enter the username for Player 1.";
+                options = "Computer will play...\n";
+                options += "Please enter your username Player 1.";
                 break;
             case "quit":
             case "q":

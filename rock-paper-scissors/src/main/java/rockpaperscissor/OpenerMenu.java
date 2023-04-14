@@ -7,6 +7,11 @@ public class OpenerMenu extends Menu {
         super(type, text);
     }
 
+    /**
+     * This method will handle the opening/starter menu options
+     * @param menuType
+     * @return
+     */
     @Override
     public  String showMenuOptions(String menuType) {
         String heading = "  Opening MENU\n";
@@ -18,26 +23,12 @@ public class OpenerMenu extends Menu {
         return heading;
     }
 
+    /**
+     * This method will handle the player responses based on menu options
+     * @param response
+     * @return
+     */
     public String getResponse(String response) {
-
-        String options = "";
-        switch(response) {
-            case "human":
-            case "h":
-                options = "Please enter the usernames for player 1 and player 2, separately.";
-                break;
-            case "computer":
-            case "c":
-                options = "Please enter the usernames for player 1.";
-                break;
-            case "quit":
-            case "q":
-                options = "Ah...stop game";
-                break;
-            default:
-                options = "Please make a correct selection.";
-        }
-
-        return options;
+        return null;
     }
 }
