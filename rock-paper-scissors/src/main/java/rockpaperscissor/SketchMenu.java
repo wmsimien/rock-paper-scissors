@@ -29,10 +29,14 @@ public class SketchMenu extends Menu {
         String options = "";
         switch(response) {
             case "human":
-                options = "Please enter the usernames for Player 1.";
+                options = "Please enter the username for Player 1.";
                 break;
             case "human2":
-                options = "Please enter the usernames for Player 2.";
+                options = "Please enter the username for Player 2.";
+                break;
+            case "computer":
+                options = "Computer play...\n";
+                options += "Please enter the username for Player 1.";
                 break;
             case "quit":
             case "q":

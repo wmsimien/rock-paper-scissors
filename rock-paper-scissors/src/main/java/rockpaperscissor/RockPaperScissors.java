@@ -42,15 +42,18 @@ public class RockPaperScissors {
 
         String response = scanner.nextLine();
         gameMessage = sketchMenu.getResponse(response.toLowerCase());
+
         // check selection is correct
         while (gameMessage.contains("selection")) {
             System.out.println(openerMenu.showMenuOptions(openerMenu.getMenuType()));
             response = scanner.nextLine();
             gameMessage = sketchMenu.getResponse(response.toLowerCase());
         }
-       // play?
+       // mortal vs mortal play or mortal vs computer play?
         if (gameMessage.contains("stop")) {
             scanner.close();
+        } else if (gameMessage.contains("Computer")) {
+            System.out.println("Mortal vs Computer");
         } else {
             System.out.println(gameMessage);
             // check opening menu response is correct
@@ -136,18 +139,11 @@ public class RockPaperScissors {
             System.out.println(p2.getUserName() + ":  " + p2.checkMoves(response.toLowerCase()));
             play2List.add(response);
             p2.setGameMoves(play2List);
-            // check win/lose options
-//            System.out.println("mortal1:  " + p1.getGameMoves());
-//            System.out.println("mortal2:  " + p2.getGameMoves());
-
             // call method to check for winner
             gamer = checkWinLose(p1, p2);
-//                    play1List.get(play1List.size()-1), play2List.get(play2List.size()-1));
-
-
         }
         scanner.close();
-        return gamer;
+        return gamer;  // Winner
     }
 
     /**
@@ -191,6 +187,8 @@ public class RockPaperScissors {
             } else {
                 winner += " WINS!, SCISSORS✂\uFE0F CUT PAPER\uD83D\uDCC4.";
             }
+        } else {  // tie
+            winner = "It's a tie, No Winner!  Play again?";
         }
         return winner;
     }

@@ -10,7 +10,7 @@ public class OpenerMenu extends Menu {
     @Override
     public  String showMenuOptions(String menuType) {
         String heading = "  Opening MENU\n";
-        heading += "=============\n" ;
+        heading += "===============\n" ;
         heading += "1.  Type 'human' for two players to play.\n";
         heading += "2.  Type 'computer' for one player to play against the Computer.\n";
 
