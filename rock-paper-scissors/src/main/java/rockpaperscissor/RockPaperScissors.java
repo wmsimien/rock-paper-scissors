@@ -6,26 +6,23 @@ public class RockPaperScissors {
     public static void main(String[] args) {
         // instantiate class
         RockPaperScissors rockPaperScissors = new RockPaperScissors();
-        String gameMessage = "";
-
-        // create an array list to hold options ["r', "p", "s"]
-
-        // if user quits; just return
-
-        // math random function to randomize options
-        // for computer choice; when play against computer, it goes first
 
         // need to keep track of ties(computer)/wins/loses
         // play again/show menu when game over
-        // timer (interface)
         // error handling interfaces (check for mortal responses like name, etc.)
-        // menu (class)
         // tracking player game history
 
         // Create and Display menu
         OpenerMenu openerMenu = new OpenerMenu("Opener",
                 "\nHello And Welcome To ROCK\uD83E\uDEA8 PAPER\uD83D\uDCC4 SCISSORS✂\uFE0F!!\n");
 
+        // call method executed the game
+        rockPaperScissors.runRockPaperScissors(openerMenu);
+    }
+
+    public String runRockPaperScissors(OpenerMenu openerMenu) {
+        // handle game messages
+        String gameMessage = "play";
         // create Scanner Class
         Scanner scanner = new Scanner(System.in);
 
@@ -45,7 +42,7 @@ public class RockPaperScissors {
             response = scanner.nextLine();
             gameMessage = sketchMenu.getResponse(response.toLowerCase());
         }
-       // mortal vs mortal play or mortal vs computer play?
+        // mortal vs mortal play or mortal vs computer play?
         if (gameMessage.contains("stop")) {
             scanner.close();
         } else if (gameMessage.contains("Computer")) {
@@ -54,29 +51,28 @@ public class RockPaperScissors {
             // create human player 1
             System.out.println(sketchMenu.getResponse("computer"));
             String player1 = scanner.nextLine();
-            gameMessage = rockPaperScissors.checkName(player1);
+            gameMessage = checkName(player1);
             // check if player1 username entered
             while (player1.length() == 0) {
                 player1 = scanner.nextLine();
-                gameMessage = rockPaperScissors.checkName(player1);
+                gameMessage = checkName(player1);
             }
             // checking to ensure player name entered or play wants to quit
             if (gameMessage.contains("quit") || player1.contains("quit")) {
                 scanner.close();
             } else {
                 Mortal mortal1 = new Mortal(player1);
-                System.out.println(rockPaperScissors.computerPlay(mortal1, sketchMenu));
+                System.out.println(computerPlay(mortal1, sketchMenu));
             }
         } else {
             System.out.println(gameMessage);
             // check opening menu response is correct
             String player1 = scanner.nextLine();
-            gameMessage = rockPaperScissors.checkName(player1);
-            System.out.println(gameMessage);
+            gameMessage = checkName(player1);
             // check if player1 username entered
             while (player1.length() == 0) {
                 player1 = scanner.nextLine();
-                gameMessage = rockPaperScissors.checkName(player1);
+                gameMessage = checkName(player1);
             }
             // still checking for valid player name or msg
             if (gameMessage.contains("quit") || player1.contains("quit")) {
@@ -87,12 +83,11 @@ public class RockPaperScissors {
                 if (mortal1.checkName(player1) == "play") {
                     System.out.println(sketchMenu.getResponse("human2"));
                     String player2 = scanner.nextLine();
-                    gameMessage = rockPaperScissors.checkName(player2);
-                    System.out.println(gameMessage);
+                    gameMessage = checkName(player2);
                     // check if player2 username entered
                     while (player1.length() == 0) {
                         player1 = scanner.nextLine();
-                        gameMessage = rockPaperScissors.checkName(player1);
+                        gameMessage = checkName(player1);
                     }
                     if (gameMessage.contains("quit") || player1.contains("quit")) {
                         scanner.close();
@@ -101,19 +96,16 @@ public class RockPaperScissors {
                         Mortal mortal2 = new Mortal(player2);
                         if (mortal2.checkName(player2) == "play") {
                             // play game!
-                            System.out.println(rockPaperScissors.playGame(mortal1, mortal2, sketchMenu));
+                            System.out.println(playGame(mortal1, mortal2, sketchMenu));
                         }
                     }
-
-                } else {
-                    // display start menu again??
                 }
             }
         }
         // close scanner
         scanner.close();
+        return gameMessage;
     }
-
     /**
      *This method will handle playing of mortal to mortal play
      * @param p1
