@@ -1,5 +1,6 @@
 package rockpaperscissor;
 
+import java.io.IOException;
 import java.util.*;
 
 public class RockPaperScissors {
@@ -155,23 +156,26 @@ public class RockPaperScissors {
 
     /**
      * This method will handle checking for winner/loser in throws; each throw is a game
+     * and will create/update user's data in their game file
      * @param p1 : Mortal Player 1
      * @param p2 : Mortal Player 2
      * @return : Winning message
      */
     public String checkWinLose(Mortal p1, Mortal p2) {
+
         // obtain player's last play
         String p1Play = p1.getGameMoves().get(p1.getGameMoves().size()-1);
         String p2Play = p2.getGameMoves().get(p2.getGameMoves().size()-1);
         String winner = "";
+        String fileData = "";
+        String file = "";
+
         if ((p1Play.equals("r") && p2Play.equals("s")) ||
                 (p1Play.equals("p") && p2Play.equals("r")) ||
                 (p1Play.equals("s") && p2Play.equals("p"))) {
            winner = p1.getUserName();
-           // set player's data
-            p1.setWins(p1.getWins()+1);
-            p2.setLoses(p2.getLoses()+1);
-            // phrase
+
+            // phrase to display results
             if (p1Play.equals("r")) {
                 winner += " WINS, ROCK\uD83E\uDEA8 CRUSHES SCISSORS✂\uFE0F.";
             } else if (p1Play.equals("p")){
@@ -179,14 +183,26 @@ public class RockPaperScissors {
             } else {
                 winner += " WINS, SCISSORS✂\uFE0F CUT PAPER\uD83D\uDCC4.";
             }
+            // set player's data
+            fileData = winner;
+            file = "src/main/java/" + p1.getUserName() + ".txt";
+
+//            try {
+//                p1.writeHistory(file, fileData);
+//            }
+//            catch (IOException e) {
+//                System.out.println(e.getMessage());
+//            }
+
+            p1.setWins(p1.getWins()+1);
+            p2.setLoses(p2.getLoses()+1);
+
         } else if ((p2Play.equals("r") && p1Play.equals("s")) ||
                 (p2Play.equals("p") && p1Play.equals("r")) ||
                 (p2Play.equals("s") && p1Play.equals("p"))) {
             winner = p2.getUserName();
-            // set player's data
-            p2.setWins(p2.getWins()+1);
-            p1.setLoses(p1.getLoses()+1);
-            // phrase
+
+            // phrase to display game results
             if (p2Play.equals("r")) {
                 winner += " WINS!, ROCK\uD83E\uDEA8 CRUSHES SCISSORS✂\uFE0F.";
             } else if (p2Play.equals("p")){
@@ -194,6 +210,22 @@ public class RockPaperScissors {
             } else {
                 winner += " WINS!, SCISSORS✂\uFE0F CUT PAPER\uD83D\uDCC4.";
             }
+
+            // set player's data
+            fileData = winner;
+            file = "src/main/java/" + p2.getUserName() + ".txt";
+
+//            try {
+//                p2.writeHistory(file, fileData);
+//            }
+//            catch (IOException e) {
+//                System.out.println(e.getMessage());
+//            }
+
+            // set player's data; create/update game file
+            p2.setWins(p2.getWins()+1);
+            p1.setLoses(p1.getLoses()+1);
+
         } else {  // tie
             winner = "It's a tie, No Winner!  Play again?";
         }

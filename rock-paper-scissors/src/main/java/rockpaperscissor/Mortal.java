@@ -94,6 +94,7 @@ public class Mortal extends Player implements MortalCheck, Tracker {
         try (BufferedWriter writer = Files.newBufferedWriter(Path.of(fileName), Charset.forName("UTF-8"), StandardOpenOption.APPEND, StandardOpenOption.CREATE, StandardOpenOption.WRITE)) {
             writer.write(fileData, 0, fileData.length());
         } catch(IOException e) {
+            System.out.println(e);
             System.out.println(e.getMessage());
         }
     }
